@@ -1,0 +1,102 @@
+<div class="custom-box" id="{{ chart.chart_id }}-test">
+    <div class="collapse" id="{{ chart.chart_id }}-setting">
+        <div class="card card-body" style="color:white;background-color: rgba(54, 163, 235, 0);border-color: rgba(240, 248, 255, 0);height: 100px;overflow-y: auto;overflow-x: hidden;padding: 10px;">
+            {% if chart.filters %}
+                <form id="{{ chart.chart_id }}-form">
+                    {% for filter in chart.filters %}
+                        {% if filter.type == 'datepicker' %}
+                        <div class="input-group input-group-sm mb-3">
+                            <span class="input-group-text" id="inputGroup-sizing-sm" style="background-color: rgba(54, 162, 235, 1);font-size: 12px;">{{ filter.label }}</span>
+                            <input type="text" class="form-control datepicker" 
+                                aria-label="Sizing example input" 
+                                aria-describedby="inputGroup-sizing-sm" 
+                                style="font-size: 12px;"
+                                id="{{ chart.chart_id }}-{{filter.name}}"
+                                name="{{filter.name}}"
+                                data-default-value="{{ filter.default_value|default:'' }}">
+                        </div>
+                        {% elif filter.type == "radio" %}
+                            {% for option in filter.options %}
+                                <div class="form-check d-flex justify-content-start">
+                                    <input class="form-check-input" type="radio" name="{{ filter.name }}" id="{{ filter.name }}_{{ option.value }}"
+                                        value="{{ option.value }}" {% if option.value == filter.default_value %}checked{% endif %} style="margin-right: 10px;">
+                                    <label class="form-check-label" for="{{ filter.name }}_{{ option.value }}">
+                                        {{ option.label }}
+                                    </label>
+                                </div>
+                            {% endfor %}
+                        {% endif %}
+                    {% endfor %}
+                    <!-- Confirm Button -->
+                    <div class="d-flex justify-content-around" style="height: 20px;">
+                        <button type="button" class="btn btn-secondary"
+                                style="--bs-btn-padding-y: 0rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;height: 100%;">
+                                Reset to default
+                        </button>                            
+                        <button type="submit" class="btn btn-success" id="{{ chart.chart_id }}-apply" name="apply"
+                                style="--bs-btn-padding-y: 0rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;height: 100%;">
+                                Apply
+                        </button>                            
+                    </div>
+                </form>
+            {% else %}
+                <p>No filters available.</p>
+            {% endif %}
+        </div>
+    </div>
+
+    <div class="custom-box-header">
+        <button class="btn" type="button" id="{{ chart.chart_id }}-refresh" name="refresh" form="{{ chart.chart_id }}-form"
+        style="--bs-btn-padding-y: 0rem; --bs-btn-padding-x: 0rem; --bs-btn-font-size: .75rem; color: white;margin-right: 10px;">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-clockwise" viewBox="0 0 16 16">
+            <path fill-rule="evenodd" d="M8 3a5 5 0 1 0 4.546 2.914.5.5 0 0 1 .908-.417A6 6 0 1 1 8 2z"/>
+            <path d="M8 4.466V.534a.25.25 0 0 1 .41-.192l2.36 1.966c.12.1.12.284 0 .384L8.41 4.658A.25.25 0 0 1 8 4.466"/>
+          </svg>
+        </button>
+        <button class="btn" type="button" id="{{ chart.chart_id }}-generate-report"
+        style="--bs-btn-padding-y: 0rem; --bs-btn-padding-x: 0rem; --bs-btn-font-size: .75rem; color: white;margin-right: 10px;">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-stars" viewBox="0 0 16 16">
+            <path d="M7.657 6.247c.11-.33.576-.33.686 0l.645 1.937a2.89 2.89 0 0 0 1.829 1.828l1.936.645c.33.11.33.576 0 .686l-1.937.645a2.89 2.89 0 0 0-1.828 1.829l-.645 1.936a.361.361 0 0 1-.686 0l-.645-1.937a2.89 2.89 0 0 0-1.828-1.828l-1.937-.645a.361.361 0 0 1 0-.686l1.937-.645a2.89 2.89 0 0 0 1.828-1.828zM3.794 1.148a.217.217 0 0 1 .412 0l.387 1.162c.173.518.579.924 1.097 1.097l1.162.387a.217.217 0 0 1 0 .412l-1.162.387A1.73 1.73 0 0 0 4.593 5.69l-.387 1.162a.217.217 0 0 1-.412 0L3.407 5.69A1.73 1.73 0 0 0 2.31 4.593l-1.162-.387a.217.217 0 0 1 0-.412l1.162-.387A1.73 1.73 0 0 0 3.407 2.31zM10.863.099a.145.145 0 0 1 .274 0l.258.774c.115.346.386.617.732.732l.774.258a.145.145 0 0 1 0 .274l-.774.258a1.16 1.16 0 0 0-.732.732l-.258.774a.145.145 0 0 1-.274 0l-.258-.774a1.16 1.16 0 0 0-.732-.732L9.1 2.137a.145.145 0 0 1 0-.274l.774-.258c.346-.115.617-.386.732-.732z"/>
+          </svg>
+        </button>
+        
+        <button class="btn" type="button" data-bs-toggle="collapse" data-bs-target="#{{ chart.chart_id }}-setting" aria-expanded="false" aria-controls="collapseExample"
+          style="--bs-btn-padding-y: 0rem; --bs-btn-padding-x: 0rem; --bs-btn-font-size: .75rem; color: white; ">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-three-dots-vertical" viewBox="0 0 16 16">
+            <path d="M9.5 13a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0m0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0m0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0"/>
+          </svg>
+        </button>
+    </div>
+    <div class="m-0 lh-sm fw-lighter text-start" id="{{ chart.chart_id }}-filter-title" style="font-size: 0.6rem;padding: 5px 5px;">
+
+    </div>
+    
+    <div class="custom-box-title text-center fw-semibold lh-1" id="{{ chart.chart_id }}-title" style="margin-left: 10px;margin-right: 10px;">
+    
+    </div>      
+    <div class="custom-box-content" id="{{ chart.chart_id }}-content">
+    </div>
+</div>
+
+<script>
+    const {{chart.chart_id}}gen_report_btn = document.getElementById("{{ chart.chart_id }}-generate-report");
+    
+    {{chart.chart_id}}gen_report_btn.addEventListener("click", async function() {
+    console.log(chartsInformation['{{chart.chart_id}}']);
+    const response = await requestReport(chartData['{{chart.chart_id}}'], 'generate-report');
+    console.log(response.report);
+    saveReport(response.report,'{{chart.chart_title}}');
+    });
+
+
+    document.addEventListener("DOMContentLoaded", function () {
+        const {{ chart.chart_id }}_refresh = document.getElementById('{{ chart.chart_id }}-refresh');
+
+        {{ chart.chart_id }}_refresh.addEventListener('click', (event) => {
+        event.preventDefault();
+        // Submit the form programmatically
+        document.getElementById('{{ chart.chart_id }}-form').requestSubmit();
+        });
+    });
+    
+</script>

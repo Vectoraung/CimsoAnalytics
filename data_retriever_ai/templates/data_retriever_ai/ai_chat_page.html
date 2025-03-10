@@ -1,0 +1,38 @@
+{% extends 'main_layout.html' %}
+{% load static%}
+
+{% block style%}
+    <link rel="stylesheet" href="{% static 'css/ai_chat_page.css' %}">
+{% endblock style%}
+
+{% block script%}
+    <script src="{% static 'js/ai_chat_page.js' %}"></script>
+{% endblock script%}
+
+{% block content %}
+    <div class="d-flex flex-column h-100 w-100">
+        <!-- Chat Messages Container (Full Width) -->
+        <div class="flex-grow-1 d-flex flex-column w-100" id="chat-content">
+            {% for message in history_messages %}
+                {% if message.role == "user" %}
+                    {% if message.content|slice:":10" != "__SYSTEM__" %}
+                    <div class="chat-message user-message">{{ message.content }}</div>
+                    {% endif %}
+                {% elif message.role == "model" %}
+                    {% if message.content != "" %}
+                    <div class="chat-message bot-message">{{ message.content }}</div>
+                    {% endif %}
+                {% endif %}
+            {% endfor %}
+        </div>        
+
+        <!-- Chat Input (Full Width) -->
+        <div class="chat-input-container w-100" style="margin-top: 10px;">
+            <div class="form-floating flex-grow-1 me-2">
+                <textarea class="form-control" placeholder="Send message" id="floatingTextarea2"></textarea>
+                <label for="floatingTextarea2">Send message</label>
+            </div>
+            <button type="button" class="btn btn-primary" id="sendMessageButton">Send</button>
+        </div>
+    </div>
+{% endblock %}

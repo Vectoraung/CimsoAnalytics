@@ -1,0 +1,52 @@
+#sidebar-area {
+    /*position: fixed;*/
+    /*top: 20px;*/
+    margin-top: 20px;
+    height: calc(100vh - 40px);
+    width: 70px;
+    background-color: #292c53;
+}
+
+body {
+    background-color: #292c53;
+    font-family: 'Poppins', sans-serif;
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+    font-size: small;
+}
+
+#main-content-area {
+    flex-grow: 1;
+    /*position: fixed;*/
+    top: 20px;
+    margin-top: 20px;
+    max-height: calc(100vh - 40px); /* Ensures it doesn’t overflow */
+    width: calc(100% - 220px);
+    /*margin-left: 210px;*/
+    background-color: #292c53;
+    overflow: hidden; /* Prevents child elements from overflowing */
+    display: flex;
+}
+
+/* ✅ Style Both X and Y Scrollbars */
+::-webkit-scrollbar {
+    width: 4px; /* ✅ Width of the vertical scrollbar */
+    height: 4px; /* ✅ Height of the horizontal scrollbar */
+}
+
+/* ✅ Style the draggable part of the scrollbar */
+::-webkit-scrollbar-thumb {
+    background-color: #337ab7; /* ✅ Primary color */
+    border-radius: 10px;
+}
+
+/* ✅ Style the scrollbar track */
+::-webkit-scrollbar-track {
+    background-color: #ffffff00; /* ✅ Transparent background */
+}
+
+.modal {
+    pointer-events: auto !important; /* ✅ Ensures modal is clickable */
+}
+ 

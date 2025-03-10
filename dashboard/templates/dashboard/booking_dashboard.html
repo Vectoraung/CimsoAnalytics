@@ -1,0 +1,123 @@
+{% extends 'main_layout.html' %}
+{% load static%}
+
+{% block style%}
+    <link rel="stylesheet" href="{% static 'css/dashboard.css' %}">      
+{% endblock style%}
+
+{% block script%}
+    <script src="{% static 'js/dashboard_charts.js' %}"></script>
+    <script src="{% static 'js/booking_dashboard.js' %}"></script>
+    <!-- Initialize Datepicker and Button Click -->
+    <script>
+        $(document).ready(function(){
+            // Initialize all datepickers
+            $('.datepicker').each(function(){
+                let defaultDate = $(this).data('default-value'); // Get the default date from the data attribute
+                
+                $(this).datepicker({
+                    format: 'dd-mm-yyyy', // Format as needed
+                    autoclose: true,
+                    todayHighlight: true
+                });
+    
+                // If there's a default date from the server, set it
+                if (defaultDate) {
+                    $(this).datepicker('setDate', defaultDate);
+                }
+            });
+        });
+    </script>   
+{% endblock script%}
+
+{% block content %}
+<div class="d-flex" style="width: 100%;">
+    <div class="flex-grow-1 custom-grid" id="chart-content-area">
+        
+        <!-- ✅ First Row -->
+        <div class="grid-item nested-grid-2">
+            <div class="nested-item">{% include 'dashboard/chart-container-box.html' with chart=charts.chart1 %}</div>
+            <div class="nested-item">{% include 'dashboard/chart-container-box.html' with chart=charts.chart2 %}</div>
+            <div class="nested-item">{% include 'dashboard/chart-container-box.html' with chart=charts.chart3 %}</div>
+            <div class="nested-item">{% include 'dashboard/chart-container-box.html' with chart=charts.chart4 %}</div>
+        </div>
+
+        <!-- ✅ Second Row -->
+        <div class="grid-item">{% include 'dashboard/chart-container-box.html' with chart=charts.chart5 %}</div>
+        <div class="grid-item">{% include 'dashboard/chart-container-box.html' with chart=charts.chart6 %}</div>
+        <div class="grid-item">{% include 'dashboard/chart-container-box.html' with chart=charts.chart7 %}</div>
+
+        <!-- ✅ Nested Grid Example (For Grouping Small Charts) -->
+        <div class="grid-item nested-grid-2">
+            <div class="nested-item">{% include 'dashboard/chart-container-box.html' with chart=charts.chart8 %}</div>
+            <div class="nested-item">{% include 'dashboard/chart-container-box.html' with chart=charts.chart9 %}</div>
+            <div class="nested-item">{% include 'dashboard/chart-container-box.html' with chart=charts.chart12 %}</div>
+            <div class="nested-item">{% include 'dashboard/chart-container-box.html' with chart=charts.chart13 %}</div>
+        </div>
+
+        <!-- ✅ Another Nested Grid Example -->
+        <div class="grid-item nested-grid-1">
+            <div class="nested-item">{% include 'dashboard/chart-container-box.html' with chart=charts.chart11 %}</div>
+            <div class="nested-item">{% include 'dashboard/chart-container-box.html' with chart=charts.chart10 %}</div>
+        </div>
+    </div>
+    <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#reportAreaCollapse" aria-expanded="false" aria-controls="collapseWidthExample"
+    style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .1rem; --bs-btn-font-size: 1rem; margin-left: 10px; background-color: #3b3e61;border-top-right-radius: 0rem; border-bottom-right-radius: 0rem;border-width: 0;">
+    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-bar-left" viewBox="0 0 16 16">
+        <path fill-rule="evenodd" d="M12.5 15a.5.5 0 0 1-.5-.5v-13a.5.5 0 0 1 1 0v13a.5.5 0 0 1-.5.5M10 8a.5.5 0 0 1-.5.5H3.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L3.707 7.5H9.5a.5.5 0 0 1 .5.5"/>
+      </svg>
+    </button>
+        <div class="collapse collapse-horizontal" id="reportAreaCollapse">
+          <div class="card card-body" id="reportArea" style="width: 300px;max-height: 100%;height: 100%;border-top-left-radius: 0rem; border-bottom-left-radius: 0rem;background-color: #3b3e61;overflow-y: scroll;">
+          </div>
+      </div>
+</div>
+{% endblock %}
+
+
+{% block bottom_script%}
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        
+        // Collect all function calls in an array
+        const functionCalls = [];
+
+        {% for key, value in charts.items %}
+            functionCalls.push(
+                new Promise((resolve) => {
+                    //let chartData = "{{ value|safe }}";
+                    //let chartDataJson = eval('(' + chartData + ')');
+                    //let jsFunction = {% if value.js_function %}{{ value.js_function|safe }}{% else %}null{% endif %};
+
+                    {% if value.js_function %}
+                    {{ value.js_function|safe }}(null, {{ value|safe }});
+                    {% endif %}
+                    // Run the function without affecting the form submission
+                    //redirectData(null, chartData, jsFunction);
+                    resolve();
+                })
+            );
+
+            let {{ value.chart_id }}_form = document.getElementById("{{ value.chart_id }}-form");
+
+            if ({{ value.chart_id }}_form) {
+                    {{ value.chart_id }}_form.addEventListener("submit", function (event) {
+                    event.preventDefault(); // ✅ Stop form from submitting
+                    console.log("🚀 Form submission prevented for {{ value.chart_id }}!");
+                    
+                    {% if value.js_function %}
+                    {{ value.js_function|safe }}(event, {{ value|safe }});
+                    {% endif %}
+                });
+            } 
+
+            
+        {% endfor %}
+
+        // Run all functions at the same time
+        Promise.all(functionCalls).then(() => {
+            console.log("All redirectData functions have been executed in parallel on page load.");
+        });
+    });
+</script>
+{% endblock bottom_script%}

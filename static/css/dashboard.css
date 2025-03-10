@@ -1,0 +1,168 @@
+/* Default Grid Layout (Normal Mode) */
+.custom-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* ✅ Default: 3 columns */
+    gap: 5px;
+    padding: 0px;
+    transition: all 0.5s ease-in-out;
+}
+
+/* Each grid item (default width) */
+.grid-item {
+    width: 100%; /* ✅ Ensure proper width in normal mode */
+    transition: width 0.5s ease-in-out;
+    height: 340px;
+}
+
+/* Full-Width Mode */
+.custom-grid.full-width {
+    grid-template-columns: 1fr; /* ✅ Expands everything to full width */
+}
+
+/* Fix width when switching back */
+.custom-grid:not(.full-width) .grid-item {
+    width: auto; /* ✅ Reset width properly when returning */
+}
+
+/* 🔹 Nested Grid (For Smaller Charts Inside a Grid-Item) */
+.nested-grid-2 {
+    display: grid;
+    /*grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));*/ /* ✅ Small charts auto-fit */
+    grid-template-columns: repeat(2, 1fr);
+    gap: 5px;
+    padding: 0px;
+    /*background-color: rgba(255, 255, 255, 0.1);*/ /* ✅ Light background for clarity */
+    border-radius: 8px;
+}
+
+.nested-grid-1 {
+    display: grid;
+    /*grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));*/ /* ✅ Small charts auto-fit */
+    grid-template-columns: repeat(1, 1fr);
+    gap: 5px;
+    padding: 0px;
+    /*background-color: rgba(255, 255, 255, 0.1);*/ /* ✅ Light background for clarity */
+    border-radius: 8px;
+}
+
+/* 🔹 Nested Grid Items */
+.nested-item {
+    /*background-color: #1a1a3d;*/ /* ✅ Slightly darker to distinguish */
+    border-radius: 8px;
+    padding: 0px;
+    transition: all 0.5s ease-in-out;
+    height: 160px;
+}
+
+/* 🟢 Scrollable Chart Content */
+#chart-content-area {
+    background-color: #3b3e61;
+    /*height: 700px;*/
+    max-height: 100%;
+    height: 100%;
+    padding: 5px;
+    border-radius: 15px;
+    overflow-y: auto; /* ✅ Enables scrolling */
+    overflow-x: hidden;
+    box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* 🟢 Custom Box for Each Chart */
+.custom-box {
+    background-color: #20204c;
+    border-radius: 12px;
+    color: white;
+    text-align: center;
+    flex: 1;
+    /*min-height: 110px;*/
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    transition: all 0.5s ease-in-out;
+    height: 100%;
+}
+
+/* 🟢 Header (Gears Button Area) */
+.custom-box-header {
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    padding: 0 10px;
+    border-top-left-radius: 12px;
+    border-top-right-radius: 12px;
+    /*background-color: rgba(255, 255, 255, 0.05);*/
+}
+
+/* 🔹 Title Styling */
+.custom-box-title {
+    font-size: 14px;
+    text-align: center;
+    color: white;
+    padding: 5px 0;
+    font-weight: bold;
+}
+
+/* Content Section (Fixes Overflow) */
+/*.custom-box-content {
+    flex-grow: 1;
+    overflow-y: auto;
+    overflow-x: hidden;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    justify-content: flex-start;
+    padding: 10px;
+    height: 100%;
+    max-height: 250px;
+    min-height: 60px;
+}*/
+
+.custom-box-content {
+    flex-grow: 1;
+    flex-direction: column;
+    align-items: center; /* ✅ Centers the chart */
+    justify-content: center;
+    overflow: hidden; /* ✅ Prevents scrolling issues */
+    padding: 10px;
+}
+
+canvas {
+    width: 100% !important; /* ✅ Forces the canvas to always fit the parent */
+    height: 100%;
+    max-width: 100%;
+    max-height: 100%;
+}
+
+/* 🟢 Table Inside Box */
+.table {
+    background-color: transparent !important;
+}
+
+.table th,
+.table td {
+    background-color: transparent !important;
+    color: white;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+/* 🟢 Responsive Adjustments */
+@media (max-width: 1024px) {
+    .custom-grid {
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); /* ✅ Smaller columns */
+    }
+
+    .nested-grid {
+        grid-template-columns: repeat(auto-fit, minmax(100px, 1fr)); /* ✅ Smaller nested items */
+    }
+}
+
+@media (max-width: 768px) {
+    .custom-grid {
+        grid-template-columns: repeat(auto-fit, minmax(100%, 1fr)); /* ✅ Full width columns */
+    }
+
+    .nested-grid {
+        grid-template-columns: repeat(auto-fit, minmax(100%, 1fr)); /* ✅ Full width nested items */
+    }
+}

@@ -1,0 +1,40 @@
+{
+    "static_data": {
+        "all_location_names_with_id": {
+            "main_fields": ["Location ID", "Description"],
+            "data": [
+                {"Location ID": -2147473648, "Description": "Main Financial Department"},
+                {"Location ID": -2147429648, "Description": "Main Accounting Department"}
+            ]
+        },
+        "all_client_status_with_id": {
+            "main_fields": ["Client Status ID", "Description"],
+            "data": [
+                {
+                    "Client Status ID": 2100,
+                    "Description": "Membership Status"
+                },
+                {
+                    "Client Status ID": 2101,
+                    "Description": "Active Member"
+                },
+                {
+                    "Client Status ID": 2102,
+                    "Description": "Inactive Member"
+                },
+                {
+                    "Client Status ID": 2104,
+                    "Description": "Prospective Member"
+                },
+                {
+                    "Client Status ID": 2106,
+                    "Description": "Membership Scrapped"
+                },
+                {
+                    "Client Status ID": 2108,
+                    "Description": "Suspended Member"
+                }
+            ]
+        }
+    }
+}

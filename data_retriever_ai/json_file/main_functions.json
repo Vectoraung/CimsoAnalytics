@@ -1,0 +1,73 @@
+{
+    "main_functions": {
+        "get_bookings_count": {
+            "object": {
+                "type": "OBJECT",
+                "properties": {
+                    "Arrival From Day":{
+                        "type": "STRING",
+                        "description": "arrving bookings after this date only in this format 'dd-mm-yyyy'."
+                    },
+                    "Arrival Until Before Day":{
+                        "type": "STRING",
+                        "description": "arrving bookings before this date only in this format 'dd-mm-yyyy'."
+                    },
+                    "Departure From Day":{
+                        "type": "STRING",
+                        "description": "departing bookings after this date only in this format 'dd-mm-yyyy'."
+                    },
+                    "Departure Until Before Day":{
+                        "type": "STRING",
+                        "description": "departing bookings after this date only in this format 'dd-mm-yyyy'."
+                    },
+                    "Creation From Day":{
+                        "type": "STRING",
+                        "description": "created bookings after this date only in this format 'dd-mm-yyyy'."
+                    },
+                    "Creation Until Before Day":{
+                        "type": "STRING",
+                        "description": "created bookings after this date only in this format 'dd-mm-yyyy'."
+                    },
+                    "Location IDs":{
+                        "type": "ARRAY",
+                        "description": "value of this field should be only ids of locations",
+                        "items": {
+                            "type": "INTEGER"
+                        }
+                    },
+                    "Client Status IDs":{
+                        "type": "ARRAY",
+                        "description": "ids of client statuses",
+                        "items": {
+                            "type": "INTEGER"
+                        }
+                    },
+                    "Gender":{
+                        "type": "ARRAY",
+                        "description": "the genders of client, 'M' for male, 'F' for female and 'U' for unspecified",
+                        "items": {
+                            "type": "STRING"
+                        }
+                    }
+                },
+                "required": []
+            },
+            "original_parameters": [
+                "Arrival From Day",
+                "Arrival Until Before Day",
+                "Departure From Day",
+                "Departure Until Before Day",
+                "Creation From Day",
+                "Creation Until Before Day",
+                "Location IDs"],
+            "date_parameters": [
+                "Arrival From Day",
+                "Arrival Until Before Day",
+                "Departure From Day",
+                "Departure Until Before Day",
+                "Creation From Day",
+                "Creation Until Before Day"
+            ]
+        }
+    }
+}
