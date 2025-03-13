@@ -2,6 +2,27 @@ from django.shortcuts import render
 
 
 # Create your views here.
+def booking_dashboard_view_plotly(request):
+    context = {
+        "chart5":{
+                "chartId": "chart5",
+                "title": "Monthly Arrival Bookings",
+                "data_url": "/monthly-arrivals-plotly/"
+        },
+        "chart6":{
+                "chartId": "chart6",
+                "title": "Yearly Income",
+                "data_url": "/yearly-income-plotly/"
+        },
+        "chart8":{
+                "chartId": "chart8",
+                "title": "Age group Segmentation",
+                "data_url": "/age-group-segmentation-plotly/",
+        },
+        
+    }
+
+    return render(request, 'dashboard/booking_dashboard_plotly.html', context)
 
 def booking_dashboard_view(request):
     context = {

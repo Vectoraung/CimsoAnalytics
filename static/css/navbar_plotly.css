@@ -1,0 +1,13 @@
+.nav-container {
+    padding: 10px;
+}
+
+.navbar {
+    --bs-navbar-color: white;
+    --bs-navbar-active-color: #419fe3;
+    --bs-navbar-brand-color: white;
+
+    background-color: #3b3e61;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}

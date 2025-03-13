@@ -2,6 +2,7 @@ from django.urls import path
 from . import views
 from . import chart_data_retriever
 from . import generate_chart_report
+from . import get_charts_data_plotly
 
 urlpatterns = [
     path('booking-dashboard/', views.booking_dashboard_view, name='booking_dashboard'),
@@ -19,4 +20,9 @@ urlpatterns = [
     path('average-daily-rate/', chart_data_retriever.average_daily_rate, name='average_daily_rate'),
 
     path('generate-report/', generate_chart_report.generate_report, name='generate_report'),
+
+     path('booking-dashboard-plotly/', views.booking_dashboard_view_plotly, name='booking_dashboard_plotly'),
+     path("age-group-segmentation-plotly/", get_charts_data_plotly.age_group_segmentation_plotly, name="age_group_segmentation_plotly"),
+     path("yearly-income-plotly/", get_charts_data_plotly.yearly_income_plotly, name="yearly_income_plotly"),
+     path("monthly-arrivals-plotly/", get_charts_data_plotly.monthly_arrivals_plotly, name="monthly_arrivals_plotly"),
 ]
