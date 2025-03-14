@@ -1,0 +1,87 @@
+/* Styling only for the #filterForm */
+.filter-form {
+    background: #fff;
+    /*padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);*/
+    width: 100%;
+    max-width: 100%;
+}
+.filter-form  .form-group {
+    margin-bottom: 12px;
+}
+.filter-form  label {
+    display: block;
+    font-size: 14px;
+    margin-bottom: 5px;
+}
+.filter-form  input,
+.filter-form  select {
+    width: 100%;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    font-size: 14px;
+    background: #fff;
+    height: 30px;
+}
+.filter-form  input:focus,
+.filter-form  select:focus {
+    outline: none;
+    border-color: #007bff;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.2);
+}
+.filter-form  input[type="date"] {
+    appearance: none;
+    background-color: white;
+    padding: 10px;
+    font-size: 14px;
+    cursor: pointer;
+}
+.filter-form  button {
+    --bs-btn-padding-y: .25rem;
+    --bs-btn-padding-x: .5rem;
+    --bs-btn-font-size: .75rem;
+}
+.filter-form  button:hover {
+    background: #0056b3;
+}
+
+/* Radio button styling (Scoped to filter form only) */
+.filter-radio-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+.filter-radio-label {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 14px;
+    cursor: pointer;
+}
+.filter-radio-label input {
+    display: none;
+}
+.filter-custom-radio {
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    border: 2px solid #007bff;
+    display: inline-block;
+    position: relative;
+}
+.filter-radio-label input:checked + .filter-custom-radio {
+    background-color: #007bff;
+    border-color: #0056b3;
+}
+.filter-radio-label input:checked + .filter-custom-radio::after {
+    content: "";
+    width: 8px;
+    height: 8px;
+    background: white;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border-radius: 50%;
+}

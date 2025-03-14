@@ -4,20 +4,203 @@ from django.shortcuts import render
 # Create your views here.
 def booking_dashboard_view_plotly(request):
     context = {
+        "chart1":{
+                "chartId": "chart1",
+                "title": "Arrivals within period",
+                "data_url": "/arrivals-plotly/",
+                "type": "single_value",
+                "filters": [
+                    {
+                        "name": "start_date",
+                        "type": "date",
+                        "label": "Start Date",
+                        "default": "2024-01-01"
+                    },
+                    {
+                        "name": "end_date",
+                        "type": "date",
+                        "label": "End Date",
+                        "default": "2024-12-31"
+                    },
+                ],
+        },
+        "chart2":{
+                "chartId": "chart2",
+                "title": "Departure bookings within period",
+                "data_url": "/departures-bookings-plotly/",
+                "type": "single_value",
+                "filters": [
+                    {
+                        "name": "start_date",
+                        "type": "date",
+                        "label": "Start Date",
+                        "default": "2024-01-01"
+                    },
+                    {
+                        "name": "end_date",
+                        "type": "date",
+                        "label": "End Date",
+                        "default": "2024-12-31"
+                    },
+                ],
+        },
+        "chart3":{
+                "chartId": "chart3",
+                "title": "Cancelled bookings percentage within period",
+                "data_url": "/cancelled-bookings-percentage-plotly/",
+                "type": "chart",
+                "filters": [
+                    {
+                        "name": "start_date",
+                        "type": "date",
+                        "label": "Start Date",
+                        "default": "2024-01-01"
+                    },
+                    {
+                        "name": "end_date",
+                        "type": "date",
+                        "label": "End Date",
+                        "default": "2024-12-31"
+                    },
+                ],
+        },
+        "chart4":{
+                "chartId": "chart4",
+                "title": "Monthly Arrival Bookings",
+                "data_url": "/monthly-arrivals-plotly/",
+                "type": "chart",
+                "filters": [
+                    {
+                        "name": "selected_year",
+                        "type": "radio",
+                        "label": "Selected Year:",
+                        "options": [
+                            {"value": "2020", "label": "2020"},
+                            {"value": "2021", "label": "2021"},
+                            {"value": "2022", "label": "2022"},
+                            {"value": "2023", "label": "2023"},
+                            {"value": "2024", "label": "2024"},
+                            {"value": "2025", "label": "2025"},
+                            {"value": "2026", "label": "2026"}
+                        ],
+                        "default": "2025"
+                    }
+                ]
+        },
         "chart5":{
                 "chartId": "chart5",
-                "title": "Monthly Arrival Bookings",
-                "data_url": "/monthly-arrivals-plotly/"
+                "title": "Yearly Income",
+                "data_url": "/yearly-income-plotly/",
+                "type": "chart",
+                "filters": [
+                    {
+                        "name": "selected_year",
+                        "type": "radio",
+                        "label": "Selected Year:",
+                        "options": [
+                            {"value": "2020", "label": "2020"},
+                            {"value": "2021", "label": "2021"},
+                            {"value": "2022", "label": "2022"},
+                            {"value": "2023", "label": "2023"},
+                            {"value": "2024", "label": "2024"},
+                            {"value": "2025", "label": "2025"},
+                            {"value": "2026", "label": "2026"}
+                        ],
+                        "default": "2025"
+                    }
+                ]
         },
         "chart6":{
                 "chartId": "chart6",
-                "title": "Yearly Income",
-                "data_url": "/yearly-income-plotly/"
+                "title": "Frequently Booked Units",
+                "data_url": "/frequently-booked-units-plotly/",
+                "type": "chart",
+                "filters": [
+                    {
+                        "name": "start_date",
+                        "type": "date",
+                        "label": "Start Date",
+                        "default": "2024-01-01"
+                    },
+                    {
+                        "name": "end_date",
+                        "type": "date",
+                        "label": "End Date",
+                        "default": "2024-12-31"
+                    },
+                ],
+        },
+        "chart7":{
+                "chartId": "chart7",
+                "title": "Age group Segmentation",
+                "data_url": "/age-group-segmentation-plotly/",
+                "type": "chart",
+                "filters": [
+                    {
+                        "name": "start_date",
+                        "type": "date",
+                        "label": "Start Date",
+                        "default": "2024-01-01"
+                    },
+                    {
+                        "name": "end_date",
+                        "type": "date",
+                        "label": "End Date",
+                        "default": "2024-12-31"
+                    },
+                ],
         },
         "chart8":{
                 "chartId": "chart8",
-                "title": "Age group Segmentation",
-                "data_url": "/age-group-segmentation-plotly/",
+                "title": "Client birthdays",
+                "data_url": "/client-birthdays-plotly/",
+                "type": "table",
+                "filters": [
+                    {
+                        "name": "start_date",
+                        "type": "date",
+                        "label": "Start Date",
+                        "default": "2024-01-01"
+                    },
+                    {
+                        "name": "end_date",
+                        "type": "date",
+                        "label": "End Date",
+                        "default": "2024-12-31"
+                    },
+                ],
+        },
+        "chart9":{
+                "chartId": "chart9",
+                "title": "Member Guests and General Guests",
+                "data_url": "/member-general-guest-plotly/",
+                "type": "chart",
+                "filters": [
+                    {
+                        "name": "start_date",
+                        "type": "date",
+                        "label": "Start Date",
+                        "default": "2024-01-01"
+                    },
+                    {
+                        "name": "end_date",
+                        "type": "date",
+                        "label": "End Date",
+                        "default": "2024-12-31"
+                    },
+                ],
+        },
+        "chart10":{
+                "chartId": "chart10",
+                "title": "Occupancy Rate",
+                "data_url": "/occupancy-rate-plotly/",
+                "type": "chart"
+        },
+        "chart11":{
+                "chartId": "chart11",
+                "title": "Average Daily Rate",
+                "data_url": "/average-daily-rate-plotly/",
+                "type": "single_value"
         },
         
     }

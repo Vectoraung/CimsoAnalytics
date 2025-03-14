@@ -75,7 +75,6 @@
 /* Chart box container */
 .chart-box {
     background-color: #20204c;
-    padding: 10px;
     border-radius: 10px;
     display: flex;
     flex-direction: column;
@@ -83,6 +82,7 @@
     height: 400px;
     overflow: hidden;
     position: relative;
+
 }
 
 .chart-box-single-value {
@@ -150,4 +150,34 @@
 .chart-container {
     width: 100%;
     height: calc(100% - 40px);
+    padding: 0px;
+    margin: 0px;
+}
+
+.single-value-chart-title {
+    font-size: 18px;
+    text-align: center;
+    color: white;
+    padding: 5px 0;
+    font-weight: bold;
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+.single-value-chart-value {
+    max-width: 500px;
+    font-size: 3.5rem; /* or 5rem */
+  }
+
+.chart-table {
+    color: #fff; /* White text color */
+    text-align: center; /* Center the table contents horizontally */
+    padding: 0px;
+    width: 100%;
+    max-width: 100%;
+}
+
+.chart-table th, .chart-table td {
+    text-align: center; /* Center the table cell contents horizontally */
+    border-bottom: 1px solid #cccccc1e;
 }

@@ -3,6 +3,7 @@
 
 {% block style%}
   <link rel="stylesheet" href="{% static 'css/dashboard_plotly.css' %}">
+  <link rel="stylesheet" href="{% static 'css/dashboard_filter_form.css' %}">
 {% endblock style%}
 
 {% block script%}
@@ -15,29 +16,32 @@
         ?.split('=')[1];
 }
   </script>
+  
 {% endblock script%}
 
 {% block content %}
 <div class="charts-area">
   <div class="grid-container grid-3col">
-    <div class="grid-container-nested grid-2col">
-      {% include 'dashboard/chart_box_plotly.html' with chart=chart1 exception="-single-value"%}
-      {% include 'dashboard/chart_box_plotly.html' with chart=chart2 exception="-single-value"%}
+    <div class="grid-container-nested grid-1col">
+      <div class="grid-container-nested grid-2col">
+        {% include 'dashboard/chart_box_plotly.html' with chart=chart1 exception="-single-value"%}
+        {% include 'dashboard/chart_box_plotly.html' with chart=chart2 exception="-single-value"%}
+      </div>
       {% include 'dashboard/chart_box_plotly.html' with chart=chart3 exception="-single-value"%}
-      {% include 'dashboard/chart_box_plotly.html' with chart=chart4 exception="-single-value"%}
     </div>
+    {% include 'dashboard/chart_box_plotly.html' with chart=chart4%}
     {% include 'dashboard/chart_box_plotly.html' with chart=chart5%}
     {% include 'dashboard/chart_box_plotly.html' with chart=chart6%}
-    {% include 'dashboard/chart_box_plotly.html' with chart=chart7%}
     <div class="grid-container-nested grid-1col">
+      {% include 'dashboard/chart_box_plotly.html' with chart=chart7 exception="-single-value"%}
       {% include 'dashboard/chart_box_plotly.html' with chart=chart8 exception="-single-value"%}
-      {% include 'dashboard/chart_box_plotly.html' with chart=chart9 exception="-single-value"%}
     </div>
-    <div class="grid-container-nested grid-2col">
-      {% include 'dashboard/chart_box_plotly.html' with chart=chart10 exception="-single-value"%}
-      {% include 'dashboard/chart_box_plotly.html' with chart=chart11 exception="-single-value"%}
-      {% include 'dashboard/chart_box_plotly.html' with chart=chart12 exception="-single-value"%}
-      {% include 'dashboard/chart_box_plotly.html' with chart=chart13 exception="-single-value"%}
+    <div class="grid-container-nested grid-1col">
+      {% include 'dashboard/chart_box_plotly.html' with chart=chart9 exception="-single-value"%}
+      <div class="grid-container-nested grid-2col">
+        {% include 'dashboard/chart_box_plotly.html' with chart=chart10 exception="-single-value"%}
+        {% include 'dashboard/chart_box_plotly.html' with chart=chart11 exception="-single-value"%}
+      </div>
     </div>
 </div>
 </div>
@@ -55,3 +59,7 @@
   </div>
 </div>
 {% endblock content %}
+
+{% block end_script%}
+
+{% endblock end_script%}
