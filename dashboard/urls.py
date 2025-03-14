@@ -3,6 +3,7 @@ from . import views
 from . import chart_data_retriever
 from . import generate_chart_report
 from . import get_charts_data_plotly
+from . import report_generator_ai
 
 urlpatterns = [
     path('booking-dashboard/', views.booking_dashboard_view, name='booking_dashboard'),
@@ -33,4 +34,5 @@ urlpatterns = [
      path("occupancy-rate-plotly/", get_charts_data_plotly.occupancy_rate_plotly, name="occupancy_rate_plotly"),
      path("average-daily-rate-plotly/", get_charts_data_plotly.average_daily_rate_plotly, name="average_daily_rate_plotly"),
      path("client-birthdays-plotly/", get_charts_data_plotly.client_birthdays_plotly, name="client_birthdays_plotly"),
+     path("generate-report-plotly/", report_generator_ai.generate_report, name="generate_report_plotly"),
 ]

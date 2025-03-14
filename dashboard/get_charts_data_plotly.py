@@ -6,6 +6,8 @@ import random
 from datetime import datetime, timedelta
 import time
 
+from . import chart_data_library as cdl
+
 chart_item_colors = [
     "#419fe3",  # Base blue
     "#1e73be",  # Deeper blue
@@ -18,18 +20,6 @@ chart_item_colors = [
     "#85d1ff",  # Light cyan blue
     "#0073e6"   # Vivid blue
 ]
-
-class ChartLibrary:
-    def __init__(self):
-        self.chart_data = {}
-
-    def add_chart_data(self, chart_name, filter, data):
-        if chart_name not in self.chart_data:
-            self.chart_data[chart_name] = []
-
-        self.chart_data[chart_name].append({"filter": filter, "data": data})
-
-chart_library = ChartLibrary()
 
 @csrf_exempt  # Only use for testing; in production, use CSRF token validation
 def age_group_segmentation_plotly(request):
@@ -45,6 +35,10 @@ def age_group_segmentation_plotly(request):
             }]
 
             titles = {"x_axis_title": "Age Group", "y_axis_title": "Number"}
+
+            cdl.chart_library.add_chart_data(filterValues["title"], filterValues["formData"], dict(zip(data[0]["x"], data[0]["y"])))
+
+            time.sleep(random.randint(2, 4))
             
             return JsonResponse({"data": data, "titles": titles})
         except json.JSONDecodeError:
@@ -67,6 +61,7 @@ def yearly_income_plotly(request):
             }]
 
             titles = {"x_axis_title": "Months", "y_axis_title": "Income"}
+            cdl.chart_library.add_chart_data(filterValues["title"], filterValues["formData"], dict(zip(data[0]["x"], data[0]["y"])))
             
             return JsonResponse({"data": data, "titles": titles})
         except json.JSONDecodeError:
@@ -89,6 +84,7 @@ def monthly_arrivals_plotly(request):
             }]
 
             additional_layout_config = {"bargap":0.6}
+            cdl.chart_library.add_chart_data(filterValues["title"], filterValues["formData"], dict(zip(data[0]["x"], data[0]["y"])))
 
             titles = {"x_axis_title": "Arrival Bookings", "y_axis_title": "Months"}
             
@@ -107,7 +103,7 @@ def arrivals_plotly(request):
 
             data = 54
 
-            chart_library.add_chart_data(filterValues["title"], filterValues["formData"], data)
+            cdl.chart_library.add_chart_data(filterValues["title"], filterValues["formData"], data)
             
             return JsonResponse({"data": data})
         except json.JSONDecodeError:
@@ -122,6 +118,8 @@ def cancelled_bookings_plotly(request):
             filterValues = json.loads(request.body)
             print(filterValues)
             data = 54
+
+            cdl.chart_library.add_chart_data(filterValues["title"], filterValues["formData"], data)
             
             return JsonResponse({"data": data})
         except json.JSONDecodeError:
@@ -136,6 +134,8 @@ def departures_bookings_plotly(request):
             filterValues = json.loads(request.body)
             print(filterValues)
             data = 54
+
+            cdl.chart_library.add_chart_data(filterValues["title"], filterValues["formData"], data)
             
             return JsonResponse({"data": data})
         except json.JSONDecodeError:
@@ -181,7 +181,12 @@ def cancelled_bookings_percentage_plotly(request):
                     "bordercolor": "#fff",
                     "borderwidth": 0
                 }
-                }
+            }
+
+            result = {}
+            for item in data:
+                result[item["x"][0]] = item["y"][0]
+            cdl.chart_library.add_chart_data(filterValues["title"], filterValues["formData"], result)
             
             return JsonResponse({"data": data, "additional_layout_config": additional_layout_config})
         except json.JSONDecodeError:
@@ -195,19 +200,21 @@ def frequently_booked_units_plotly(request):
         try:
             filterValues = json.loads(request.body)
             print(filterValues)
-            unitTypes = ["Deluxe Room", "Suite", "Standard Room", "Penthouse"]
-            bookingCounts = [120, 80, 150, 50]
-            sliceColors = chart_item_colors[:len(unitTypes)]
+
+            legends = ["Deluxe Room", "Suite", "Standard Room", "Penthouse"]
+            values = [120, 80, 150, 50]
+
+            sliceColors = chart_item_colors[:len(legends)]
 
             data = [{
-                "labels": unitTypes,
-                "values": bookingCounts,
+                "labels": legends,
+                "values": values,
                 "type": "pie",
                 "hole": 0.4,  # Creates the donut effect (0 = full pie, 0.4 = standard donut)
                 "marker": { "colors": sliceColors },
                 "textinfo": "label+percent",
                 "insidetextfont": { "color": "#fff" },
-                "showlegend": True
+                "showlegend": False
             }]
 
             additional_layout_config = {
@@ -217,7 +224,9 @@ def frequently_booked_units_plotly(request):
                     "bordercolor": "#fff",
                     "borderwidth": 0
                 }
-                }
+            }
+
+            cdl.chart_library.add_chart_data(filterValues["title"], filterValues["formData"], dict(zip(legends, values)))
             
             return JsonResponse({"data": data, "additional_layout_config": additional_layout_config})
         except json.JSONDecodeError:
@@ -263,7 +272,12 @@ def member_general_guest_plotly(request):
                     "bordercolor": "#fff",
                     "borderwidth": 0
                 }
-                }
+            }
+
+            result = {}
+            for item in data:
+                result[item["x"][0]] = item["y"][0]
+            cdl.chart_library.add_chart_data(filterValues["title"], filterValues["formData"], result)
             
             return JsonResponse({"data": data, "additional_layout_config": additional_layout_config})
         except json.JSONDecodeError:
@@ -277,13 +291,13 @@ def occupancy_rate_plotly(request):
         try:
             filterValues = json.loads(request.body)
             print(filterValues)
-            unitTypes = ["Full month", "Occupied"]
-            bookingCounts = [100, 30]
-            sliceColors = chart_item_colors[:len(unitTypes)]
+            legends = ["Full month", "Occupied"]
+            value = [100, 30]
+            sliceColors = chart_item_colors[:len(legends)]
 
             data = [{
-                "labels": unitTypes,
-                "values": bookingCounts,
+                "labels": legends,
+                "values": value,
                 "type": "pie",
                 "hole": 0,  # Creates the donut effect (0 = full pie, 0.4 = standard donut)
                 "marker": { "colors": sliceColors },
@@ -299,7 +313,9 @@ def occupancy_rate_plotly(request):
                     "bordercolor": "#fff",
                     "borderwidth": 0
                 }
-                }
+            }
+
+            cdl.chart_library.add_chart_data(filterValues["title"], filterValues["formData"], dict(zip(legends, value)))
             
             return JsonResponse({"data": data, "additional_layout_config": additional_layout_config})
         except json.JSONDecodeError:
@@ -312,9 +328,11 @@ def average_daily_rate_plotly(request):
     if request.method == "POST":
         try:
             filterValues = json.loads(request.body)
-            print(filterValues)
+            print("adr",filterValues)
             data = "$82557"
             
+            cdl.chart_library.add_chart_data(filterValues["title"], filterValues["formData"], data)
+
             return JsonResponse({"data": data})
         except json.JSONDecodeError:
             return JsonResponse({"error": "Invalid JSON"}, status=400)

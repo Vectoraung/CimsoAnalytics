@@ -9,6 +9,7 @@
 {% block script%}
   <script src="{% static 'js/charts_plotly.js' %}"></script>
   <script src="{% static 'js/dashboard_tool_functions_plotly.js' %}"></script>
+  <script src="{% static 'js/ai_generate_report_plotly.js' %}"></script>
   <script>
      function getCSRFToken() {
     return document.cookie.split('; ')
@@ -24,37 +25,36 @@
   <div class="grid-container grid-3col">
     <div class="grid-container-nested grid-1col">
       <div class="grid-container-nested grid-2col">
-        {% include 'dashboard/chart_box_plotly.html' with chart=chart1 exception="-single-value"%}
-        {% include 'dashboard/chart_box_plotly.html' with chart=chart2 exception="-single-value"%}
+        {% include 'dashboard/chart_box_plotly.html' with chart=charts.chart1 exception="-single-value"%}
+        {% include 'dashboard/chart_box_plotly.html' with chart=charts.chart2 exception="-single-value"%}
       </div>
-      {% include 'dashboard/chart_box_plotly.html' with chart=chart3 exception="-single-value"%}
+      {% include 'dashboard/chart_box_plotly.html' with chart=charts.chart3 exception="-single-value"%}
     </div>
-    {% include 'dashboard/chart_box_plotly.html' with chart=chart4%}
-    {% include 'dashboard/chart_box_plotly.html' with chart=chart5%}
-    {% include 'dashboard/chart_box_plotly.html' with chart=chart6%}
+    {% include 'dashboard/chart_box_plotly.html' with chart=charts.chart4%}
+    {% include 'dashboard/chart_box_plotly.html' with chart=charts.chart5%}
+    {% include 'dashboard/chart_box_plotly.html' with chart=charts.chart6%}
     <div class="grid-container-nested grid-1col">
-      {% include 'dashboard/chart_box_plotly.html' with chart=chart7 exception="-single-value"%}
-      {% include 'dashboard/chart_box_plotly.html' with chart=chart8 exception="-single-value"%}
+      {% include 'dashboard/chart_box_plotly.html' with chart=charts.chart7 exception="-single-value"%}
+      {% include 'dashboard/chart_box_plotly.html' with chart=charts.chart8 exception="-single-value"%}
     </div>
     <div class="grid-container-nested grid-1col">
-      {% include 'dashboard/chart_box_plotly.html' with chart=chart9 exception="-single-value"%}
+      {% include 'dashboard/chart_box_plotly.html' with chart=charts.chart9 exception="-single-value"%}
       <div class="grid-container-nested grid-2col">
-        {% include 'dashboard/chart_box_plotly.html' with chart=chart10 exception="-single-value"%}
-        {% include 'dashboard/chart_box_plotly.html' with chart=chart11 exception="-single-value"%}
+        {% include 'dashboard/chart_box_plotly.html' with chart=charts.chart10 exception="-single-value"%}
+        {% include 'dashboard/chart_box_plotly.html' with chart=charts.chart11 exception="-single-value"%}
       </div>
     </div>
 </div>
 </div>
 
-<button class="btn open-report-btn" type="button" data-bs-toggle="collapse" id="collapseToggle" data-bs-target="#collapseWidthExample" aria-expanded="false" aria-controls="collapseWidthExample">
+<button class="btn open-report-btn" type="button" data-bs-toggle="collapse" id="collapseToggle" data-bs-target="#reportAreaCollapse" aria-expanded="false" aria-controls="reportAreaCollapse">
   <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrows-expand-vertical" viewBox="0 0 16 16">
     <path d="M8 15a.5.5 0 0 1-.5-.5v-13a.5.5 0 0 1 1 0v13a.5.5 0 0 1-.5.5M.146 8.354a.5.5 0 0 1 0-.708l2-2a.5.5 0 1 1 .708.708L1.707 7.5H5.5a.5.5 0 0 1 0 1H1.707l1.147 1.146a.5.5 0 0 1-.708.708zM10 8a.5.5 0 0 1 .5-.5h3.793l-1.147-1.146a.5.5 0 0 1 .708-.708l2 2a.5.5 0 0 1 0 .708l-2 2a.5.5 0 0 1-.708-.708L14.293 8.5H10.5A.5.5 0 0 1 10 8"/>
   </svg>
 </button>
 <div>
-  <div class="collapse collapse-horizontal" id="collapseWidthExample" style="padding: 10px;">
-    <div class="card card-body" style="width: 300px;">
-      This is some placeholder content for a horizontal collapse. It's hidden by default and shown when triggered.
+  <div class="collapse collapse-horizontal" id="reportAreaCollapse" style="max-height: 100%;height: 100%;">
+    <div class="card card-body" id="report-area" style="width: 300px;height: 100%;background-color: #3b3e61;color: white; overflow-y: scroll;">
     </div>
   </div>
 </div>
@@ -62,4 +62,22 @@
 
 {% block end_script%}
 
+{% for chart_id, chart_data in context.items %}
+
+{% endfor %}
+
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    Promise.all([
+    {% for chart_id, chart_data in charts.items %}
+      document.getElementById('{{ chart_data.chartId }}-refresh').click(),
+    {% endfor %}
+    ]).then(() => {
+    console.log('All charts loaded.');
+  });
+});
+
+  
+</script>
 {% endblock end_script%}

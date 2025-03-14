@@ -3,10 +3,15 @@ import google.generativeai as ggenai
 from pprint import pprint
 from google.ai.generativelanguage_v1beta.types import content
 import asyncio
+from django.views.decorators.csrf import csrf_exempt
+import json
+from django.http import JsonResponse
 
 import json
 import os
 from django.conf import settings
+
+from . import chart_data_library
 
 class ReportGenerator:
     def __init__(self):
@@ -101,3 +106,25 @@ Generate reports effectively based on these principles."""
         self.saved_reports[data.get('Chart title')].append(response_json)
 
         return response_json
+    
+report_generator = ReportGenerator()
+    
+@csrf_exempt  # Only use for testing; in production, use CSRF token validation
+def generate_report(request):
+    if request.method == "POST":
+        try:
+            data = json.loads(request.body)
+
+            request_context = {
+                "Chart title": data["title"],
+                "data": chart_data_library.chart_library.get_chart_data(data["title"])
+            }
+
+            report = report_generator.generate_report(request_context)
+
+            print(report)
+            return JsonResponse({"report": report})
+        except json.JSONDecodeError:
+            return JsonResponse({"error": "Invalid JSON"}, status=400)
+    
+    return JsonResponse({"error": "Invalid request"}, status=400)

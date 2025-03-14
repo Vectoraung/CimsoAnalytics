@@ -3,7 +3,7 @@ from django.shortcuts import render
 
 # Create your views here.
 def booking_dashboard_view_plotly(request):
-    context = {
+    charts = {
         "chart1":{
                 "chartId": "chart1",
                 "title": "Arrivals within period",
@@ -194,18 +194,47 @@ def booking_dashboard_view_plotly(request):
                 "chartId": "chart10",
                 "title": "Occupancy Rate",
                 "data_url": "/occupancy-rate-plotly/",
-                "type": "chart"
+                "type": "chart",
+                "filters": [
+                    {
+                        "name": "start_date",
+                        "type": "date",
+                        "label": "Start Date",
+                        "default": "2024-01-01"
+                    },
+                    {
+                        "name": "end_date",
+                        "type": "date",
+                        "label": "End Date",
+                        "default": "2024-12-31"
+                    },
+                ],
         },
         "chart11":{
                 "chartId": "chart11",
                 "title": "Average Daily Rate",
                 "data_url": "/average-daily-rate-plotly/",
-                "type": "single_value"
+                "type": "single_value",
+                "filters": [
+                    {
+                        "name": "start_date",
+                        "type": "date",
+                        "label": "Start Date",
+                        "default": "2024-01-01"
+                    },
+                    {
+                        "name": "end_date",
+                        "type": "date",
+                        "label": "End Date",
+                        "default": "2024-12-31"
+                    },
+                ],
         },
         
     }
 
-    return render(request, 'dashboard/booking_dashboard_plotly.html', context)
+    return render(request, 'dashboard/booking_dashboard_plotly.html', {
+        "charts": charts,})
 
 def booking_dashboard_view(request):
     context = {

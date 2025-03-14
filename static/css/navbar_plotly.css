@@ -5,9 +5,21 @@
 .navbar {
     --bs-navbar-color: white;
     --bs-navbar-active-color: #419fe3;
-    --bs-navbar-brand-color: white;
+    /*--bs-navbar-brand-color: white;*/
 
     background-color: #3b3e61;
     border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 0 30px rgba(0, 0, 0, 0.1);
+}
+
+.cool-brand {
+    font-size: 20px;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    background: linear-gradient(45deg, #ff8a00, #e52e71, #007bff);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.3);
+    font-family: 'Poppins', sans-serif;
 }

@@ -43,7 +43,7 @@ function createChart(chartId, title, data, titles, additional_layout_config) {
         paper_bgcolor: "#20204c",
         font: { color: "#fff" },
         margin: { 
-            t: 0,  // Top margin
+            t: 5,  // Top margin
             l: 45,  // Left margin
             r: 10,  // Right margin
             b: 25,  // Bottom margin
