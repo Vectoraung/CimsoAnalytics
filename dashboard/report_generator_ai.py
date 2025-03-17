@@ -20,6 +20,55 @@ class ReportGenerator:
 
     def get_chart_data(self, chart_title):
         return self.saved_reports.get(chart_title)
+    
+    def translate_report(self, report, to_langauge, chart_title):
+        system_instruction=f"""You are an AI report translator for hotel bookings analytic report. Your role is to translate reports from English to {to_langauge}.\nYou must follow the reponse schema strictly.\nTranslate the value of 'paragraph_title' and value of 'context'."""
+
+        # Create the model
+        generation_config = {
+        "temperature": 2,
+        "top_p": 0,
+        "top_k": 40,
+        "max_output_tokens": 8192,
+        "response_schema": content.Schema(
+            type = content.Type.OBJECT,
+            required = ["report"],
+            properties = {
+                "report": content.Schema(
+                    type = content.Type.ARRAY,
+                    items = content.Schema(
+                        type = content.Type.OBJECT,
+                        required = ["paragraph_title", "context"],
+                        properties = {
+                            "paragraph_title": content.Schema(
+                                type = content.Type.STRING,
+                            ),
+                            "context": content.Schema(
+                                type = content.Type.STRING,
+                            ),
+                        },
+                    ),
+                ),
+            },
+        ),
+        "response_mime_type": "application/json",
+        }
+
+        model = ggenai.GenerativeModel(
+            model_name="gemini-2.0-flash",
+            generation_config=generation_config,
+            system_instruction=system_instruction
+            )
+        
+        chat_session = model.start_chat(history=[])
+
+        response = chat_session.send_message(str(report))
+
+        response_json = json.loads(response.text)
+
+        self.saved_reports[chart_title][-1]['in_other_language'] = response_json
+
+        return response_json
 
     def generate_report(self, data):
         system_instruction="""You are an AI report creator for hotel bookings analytics. Your role is to generate insightful and concise reports based on chart data provided.
@@ -91,7 +140,7 @@ Generate reports effectively based on these principles."""
 
         prompt = str(data)
         if self.saved_reports.get(data.get('Chart title')):
-            prompt = f"{prompt}\nThis was your last response:\n{self.saved_reports[data.get('Chart title')][-1]}\nTry not to repeat the last response if possible.\nIf the current data is different, try to compare it with the last response."
+            prompt = f"{prompt}\nThis was your last response:\n{self.saved_reports[data.get('Chart title')][-1]['in_english']}\nTry not to repeat the last response if possible.\nIf the current data is different, try to compare it with the last response."
 
         print("prompt",prompt)
         response = chat_session.send_message(prompt)
@@ -103,7 +152,7 @@ Generate reports effectively based on these principles."""
         if not self.saved_reports.get(data.get('Chart title')):
             self.saved_reports[data.get('Chart title')] = []
 
-        self.saved_reports[data.get('Chart title')].append(response_json)
+        self.saved_reports[data.get('Chart title')].append({"in_english": response_json, "in_other_language": None})
 
         return response_json
     
@@ -117,10 +166,13 @@ def generate_report(request):
 
             request_context = {
                 "Chart title": data["title"],
-                "data": chart_data_library.chart_library.get_chart_data(data["title"])
+                "data": chart_data_library.chart_library.get_chart_data(data["title"]),
             }
 
             report = report_generator.generate_report(request_context)
+
+            if data['language'] != 'english':
+                report = report_generator.translate_report(report, data['language'], data['title'])
 
             print(report)
             return JsonResponse({"report": report})

@@ -54,8 +54,21 @@
 </button>
 <div>
   <div class="collapse collapse-horizontal" id="reportAreaCollapse" style="max-height: 100%;height: 100%;">
-    <div class="card card-body" id="report-area" style="width: 300px;height: 100%;background-color: #3b3e61;color: white; overflow-y: scroll;">
+    <div class="card card-body" style="width: 300px;height: 100%;background-color: #3b3e61;color: white; overflow-y: scroll;">
+      <div class="btn-group" style="width: 100%;height: 40px;max-height: 40px;">
+        <button class="btn btn-secondary btn-sm dropdown-toggle" id="report-lang-btn" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+          English
+        </button>
+        <ul class="dropdown-menu" id="report-lang-dropdown">
+          <li><a class="dropdown-item" href="#" data-lang="english">English</a></li>
+          <li><a class="dropdown-item" href="#" data-lang="thailand">Thai</a></li>
+          <li><a class="dropdown-item" href="#" data-lang="chinese">Chinese</a></li>
+          <li><a class="dropdown-item" href="#" data-lang="burmese">Burmese</a></li>
+        </ul>
+      </div>
+      <div id="report-area" style="width: 100%;height: 100;max-width: 100%;max-height: 100%;margin-top: 10px;"></div>
     </div>
+    
   </div>
 </div>
 {% endblock content %}
@@ -65,7 +78,22 @@
 {% for chart_id, chart_data in context.items %}
 
 {% endfor %}
-
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+      // Select the dropdown menu with ID
+      document.querySelector('#report-lang-dropdown').addEventListener("click", function(event) {
+          if (event.target.classList.contains('dropdown-item')) {
+              event.preventDefault(); // Prevent default action of anchor tag
+  
+              var lang = event.target.getAttribute("data-lang"); // Get language code
+              var text = event.target.textContent; // Get the text of the selected item
+  
+              // Update the button text
+              document.querySelector('.dropdown-toggle').textContent = text;
+          }
+      });
+  });
+  </script>
 
 <script>
   document.addEventListener('DOMContentLoaded', function() {

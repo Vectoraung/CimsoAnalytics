@@ -183,10 +183,7 @@ def cancelled_bookings_percentage_plotly(request):
                 }
             }
 
-            result = {}
-            for item in data:
-                result[item["x"][0]] = item["y"][0]
-            cdl.chart_library.add_chart_data(filterValues["title"], filterValues["formData"], result)
+            cdl.chart_library.add_chart_data(filterValues["title"], filterValues["formData"], {"Cancelled Bookings": canceled, "Total Bookings": total})
             
             return JsonResponse({"data": data, "additional_layout_config": additional_layout_config})
         except json.JSONDecodeError:
@@ -274,10 +271,7 @@ def member_general_guest_plotly(request):
                 }
             }
 
-            result = {}
-            for item in data:
-                result[item["x"][0]] = item["y"][0]
-            cdl.chart_library.add_chart_data(filterValues["title"], filterValues["formData"], result)
+            cdl.chart_library.add_chart_data(filterValues["title"], filterValues["formData"], {"member guest arrivals": member_guest, "general guest arrivals": general_guest})
             
             return JsonResponse({"data": data, "additional_layout_config": additional_layout_config})
         except json.JSONDecodeError:
@@ -291,22 +285,41 @@ def occupancy_rate_plotly(request):
         try:
             filterValues = json.loads(request.body)
             print(filterValues)
-            legends = ["Full month", "Occupied"]
-            value = [100, 30]
-            sliceColors = chart_item_colors[:len(legends)]
+            full_period_as_percentage = 100
+            occupied_period_as_percentage = 25
 
-            data = [{
-                "labels": legends,
-                "values": value,
-                "type": "pie",
-                "hole": 0,  # Creates the donut effect (0 = full pie, 0.4 = standard donut)
-                "marker": { "colors": sliceColors },
-                "textinfo": "label+percent",
-                "insidetextfont": { "color": "#fff", "size": 6 },
-                "showlegend": False
-            }]
+            data = [
+                {
+                    "y": ["Rate"],
+                    "x": [occupied_period_as_percentage],
+                    "type": "bar",
+                    "name": "general guest arrivals",
+                    "orientation": "h",
+                    "textinfo": "label+percent",
+                    "marker": { "color": chart_item_colors[1] },
+                    "hoverinfo": "none",
+                    "text": ['25%'],
+                    "textposition": "inside",
+                    "insidetextfont": { "color": '#fff' },
+                    "showlegend": False,
+                },
+                {
+                    "y": ["Rate"],
+                    "x": [full_period_as_percentage-occupied_period_as_percentage],
+                    "type": "bar",
+                    "name": "member guest arrivals",
+                    "orientation": "h",
+                    "marker": { "color": chart_item_colors[0] },
+                    "hoverinfo": "none",
+                    "text": ['100%'],
+                    "textposition": "inside",
+                    "insidetextfont": { "color": '#fff' },
+                    "showlegend": False,
+                },
+            ]
 
             additional_layout_config = {
+                "barmode":"stack",
                 "legend": {
                     "font": { "size": 12, "color": "#fff" },
                     "bgcolor": "rgba(0, 0, 0, 0)",
@@ -315,7 +328,7 @@ def occupancy_rate_plotly(request):
                 }
             }
 
-            cdl.chart_library.add_chart_data(filterValues["title"], filterValues["formData"], dict(zip(legends, value)))
+            cdl.chart_library.add_chart_data(filterValues["title"], filterValues["formData"], {"Occupied Period": f'{occupied_period_as_percentage}%'})
             
             return JsonResponse({"data": data, "additional_layout_config": additional_layout_config})
         except json.JSONDecodeError:

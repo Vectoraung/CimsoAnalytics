@@ -157,6 +157,7 @@ function typeWriterEffect(elementId, data, chartTitle, speed = 20, delayBetween 
 }
 
 async function generateReport(chartTitle){
+    var selectedValue = document.getElementById("report-lang-btn").textContent;
     try {
         await fetch('/generate-report-plotly/', {
             method: 'POST',
@@ -164,7 +165,7 @@ async function generateReport(chartTitle){
                 'Content-Type': 'application/json',
                 'X-CSRFToken': getCSRFToken() // Include CSRF token for security
             },
-            body: JSON.stringify({title: chartTitle}),
+            body: JSON.stringify({title: chartTitle, language: selectedValue}),
         })
         .then(response => response.json())
         .then(data => {
