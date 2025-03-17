@@ -19,6 +19,16 @@ function saveChartAsImage(chartId) {
     });
 }
 
-function resetChart(chartId) {
+/*function resetChart(chartId) {
     Plotly.relayout(chartId, { "xaxis.autorange": true, "yaxis.autorange": true });
+}*/
+
+function resetChart(chartId) {
+    var chartElement = document.getElementById(chartId);
+    if (!chartElement) {
+        console.error("Chart element not found:", chartId);
+        return;
+    }
+
+    Plotly.relayout(chartElement, { "xaxis.autorange": true, "yaxis.autorange": true });
 }

@@ -47,7 +47,7 @@
 </div>
 </div>
 
-<button class="btn open-report-btn" type="button" data-bs-toggle="collapse" id="collapseToggle" data-bs-target="#reportAreaCollapse" aria-expanded="false" aria-controls="reportAreaCollapse">
+<button class="btn open-report-btn" type="button" data-bs-toggle="collapse" id="report-ara-btn" data-bs-target="#reportAreaCollapse" aria-expanded="false" aria-controls="reportAreaCollapse">
   <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrows-expand-vertical" viewBox="0 0 16 16">
     <path d="M8 15a.5.5 0 0 1-.5-.5v-13a.5.5 0 0 1 1 0v13a.5.5 0 0 1-.5.5M.146 8.354a.5.5 0 0 1 0-.708l2-2a.5.5 0 1 1 .708.708L1.707 7.5H5.5a.5.5 0 0 1 0 1H1.707l1.147 1.146a.5.5 0 0 1-.708.708zM10 8a.5.5 0 0 1 .5-.5h3.793l-1.147-1.146a.5.5 0 0 1 .708-.708l2 2a.5.5 0 0 1 0 .708l-2 2a.5.5 0 0 1-.708-.708L14.293 8.5H10.5A.5.5 0 0 1 10 8"/>
   </svg>
@@ -55,16 +55,22 @@
 <div>
   <div class="collapse collapse-horizontal" id="reportAreaCollapse" style="max-height: 100%;height: 100%;">
     <div class="card card-body" style="width: 300px;height: 100%;background-color: #3b3e61;color: white; overflow-y: scroll;">
-      <div class="btn-group" style="width: 100%;height: 40px;max-height: 40px;">
-        <button class="btn btn-secondary btn-sm dropdown-toggle" id="report-lang-btn" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-          English
-        </button>
-        <ul class="dropdown-menu" id="report-lang-dropdown">
-          <li><a class="dropdown-item" href="#" data-lang="english">English</a></li>
-          <li><a class="dropdown-item" href="#" data-lang="thailand">Thai</a></li>
-          <li><a class="dropdown-item" href="#" data-lang="chinese">Chinese</a></li>
-          <li><a class="dropdown-item" href="#" data-lang="burmese">Burmese</a></li>
-        </ul>
+      <div class="d-flex">
+        <div class="p-2">Report language:</div>
+        <div class="p-2 flex-grow-1">
+          <div class="btn-group" style="width: 100%;height: 25px;max-height: 25px;">
+            <button class="btn btn-secondary btn-sm dropdown-toggle" id="report-lang-btn" type="button" data-bs-toggle="dropdown" aria-expanded="false"
+            style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;">
+              English
+            </button>
+            <ul class="dropdown-menu" id="report-lang-dropdown">
+              <li style="height: 25px;"><a class="dropdown-item" href="#" data-lang="english">English</a></li>
+              <li style="height: 25px;"><a class="dropdown-item" href="#" data-lang="thailand">Thai</a></li>
+              <li style="height: 25px;"><a class="dropdown-item" href="#" data-lang="chinese">Chinese</a></li>
+              <li style="height: 25px;"><a class="dropdown-item" href="#" data-lang="burmese">Burmese</a></li>
+            </ul>
+          </div>
+        </div>
       </div>
       <div id="report-area" style="width: 100%;height: 100;max-width: 100%;max-height: 100%;margin-top: 10px;"></div>
     </div>
@@ -79,7 +85,7 @@
 
 {% endfor %}
 <script>
-  document.addEventListener("DOMContentLoaded", function() {
+  /*document.addEventListener("DOMContentLoaded", function() {
       // Select the dropdown menu with ID
       document.querySelector('#report-lang-dropdown').addEventListener("click", function(event) {
           if (event.target.classList.contains('dropdown-item')) {
@@ -92,8 +98,24 @@
               document.querySelector('.dropdown-toggle').textContent = text;
           }
       });
+  });*/
+</script>
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    var reportAreaBtn = document.getElementById("report-ara-btn");
+
+    reportAreaBtn.addEventListener("click", function() {
+      setTimeout(function() {
+        {% for chart_id, chart_data in charts.items %}
+          {% if chart_data.type == 'chart' %}
+          document.getElementById("{{chart_data.chartId}}-reset-size").click();
+          //resetChart('{{chart_data.chartId}}');
+          {% endif %}
+        {% endfor %}
+      }, 1000); // 1000ms = 1s
+    });
   });
-  </script>
+</script>
 
 <script>
   document.addEventListener('DOMContentLoaded', function() {
