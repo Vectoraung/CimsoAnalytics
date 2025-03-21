@@ -8,8 +8,6 @@ class ChartLibrary:
 
         self.chart_data[chart_name].append({"filter": filter, "value": data})
 
-        print("saved chart data: ",self.chart_data)
-
     def get_chart_data(self, chart_name):
         return self.chart_data.get(chart_name, [])
 

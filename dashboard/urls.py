@@ -22,7 +22,9 @@ urlpatterns = [
 
     path('generate-report/', generate_chart_report.generate_report, name='generate_report'),
 
+    path('overwhelming-view-plotly', views.booking_dashboard_view_plotly, name='booking_dashboard_plotly'),
     path('', views.booking_dashboard_view_plotly, name='booking_dashboard_plotly'),
+    path('single-chart-view-plotly/', views.booking_dashboard_view_single_chart_plotly, name='booking_dashboard_view_single_chart_plotly'),
     #path('booking-dashboard-plotly/', views.booking_dashboard_view_plotly, name='booking_dashboard_plotly'),
     path("arrivals-plotly/", get_charts_data_plotly.arrivals_plotly, name="arrivals_plotly"),
     path("departures-bookings-plotly/", get_charts_data_plotly.departures_bookings_plotly, name="departures_bookings_plotly"),

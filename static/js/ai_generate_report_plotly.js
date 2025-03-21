@@ -158,6 +158,17 @@ function typeWriterEffect(elementId, data, chartTitle, speed = 20, delayBetween 
 
 async function generateReport(chartTitle){
     var selectedValue = document.getElementById("report-lang-btn").textContent;
+    const collapseElement = document.getElementById('reportAreaCollapse');
+    if (!collapseElement.classList.contains('show')) {
+        const collapse = new bootstrap.Collapse(collapseElement);
+        collapse.show();
+    }
+    const reportArea = document.getElementById("report-area");
+    spinnerElement = `<div class="spinner-border text-light" id="spinnerAIReport" role="status">
+    <span class="visually-hidden">Loading...</span>
+    </div>`;
+    reportArea.innerHTML += spinnerElement;
+
     try {
         await fetch('/generate-report-plotly/', {
             method: 'POST',
@@ -169,12 +180,7 @@ async function generateReport(chartTitle){
         })
         .then(response => response.json())
         .then(data => {
-            const collapseElement = document.getElementById('reportAreaCollapse');
-            if (!collapseElement.classList.contains('show')) {
-                const collapse = new bootstrap.Collapse(collapseElement);
-                collapse.show();
-            }
-
+            document.getElementById("spinnerAIReport").remove();
             typeWriterEffect("report-area", data.report.report, chartTitle);
 
             if (!(chartTitle in generatedReports)) {

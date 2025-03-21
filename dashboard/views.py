@@ -1,9 +1,8 @@
 from django.shortcuts import render
 
 
-# Create your views here.
-def booking_dashboard_view_plotly(request):
-    charts = {
+
+charts = {
         "chart1":{
                 "chartId": "chart1",
                 "title": "Arrivals within period",
@@ -83,7 +82,7 @@ def booking_dashboard_view_plotly(request):
                             {"value": "2025", "label": "2025"},
                             {"value": "2026", "label": "2026"}
                         ],
-                        "default": "2025"
+                        "default": "2024"
                     }
                 ]
         },
@@ -197,6 +196,15 @@ def booking_dashboard_view_plotly(request):
                 "type": "chart",
                 "filters": [
                     {
+                        "name": "selected_unit",
+                        "type": "radio",
+                        "label": "Selected Unit:",
+                        "options": [
+                            {"value": -2147483647, "label": "Standard"},
+                        ],
+                        "default": -2147483647
+                    },
+                    {
                         "name": "start_date",
                         "type": "date",
                         "label": "Start Date",
@@ -208,7 +216,7 @@ def booking_dashboard_view_plotly(request):
                         "label": "End Date",
                         "default": "2024-12-31"
                     },
-                ],
+                ]
         },
         "chart11":{
                 "chartId": "chart11",
@@ -216,6 +224,15 @@ def booking_dashboard_view_plotly(request):
                 "data_url": "/average-daily-rate-plotly/",
                 "type": "single_value",
                 "filters": [
+                    {
+                        "name": "selected_location",
+                        "type": "radio",
+                        "label": "Selected Location:",
+                        "options": [
+                            {"value": -2147473648, "label": "MAIN Main Financial Department"},
+                        ],
+                        "default": -2147473648
+                    },
                     {
                         "name": "start_date",
                         "type": "date",
@@ -233,6 +250,12 @@ def booking_dashboard_view_plotly(request):
         
     }
 
+# Create your views here.
+def booking_dashboard_view_single_chart_plotly(request):
+    return render(request, 'dashboard/booking_dashboard_single_chart_plotly.html', {
+        "charts": charts,})
+
+def booking_dashboard_view_plotly(request):
     return render(request, 'dashboard/booking_dashboard_plotly.html', {
         "charts": charts,})
 

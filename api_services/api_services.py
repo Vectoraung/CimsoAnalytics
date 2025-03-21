@@ -36,7 +36,9 @@ def fetch_data(endpoint, method="GET", payload=None):
     :param payload: Data to send to the API.
     :return: Response from the API.
     """
-    return ApiService.call_api(endpoint, method=method, payload=payload)
+
+    response = ApiService.call_api(endpoint, method=method, payload=payload)
+    return response['payload']
 
 # Example usage
 '''payload = {"Client ID": -1438289273}

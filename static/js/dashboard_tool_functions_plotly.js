@@ -31,4 +31,5 @@ function resetChart(chartId) {
     }
 
     Plotly.relayout(chartElement, { "xaxis.autorange": true, "yaxis.autorange": true });
+    console.log("Chart reset:", chartId);
 }
