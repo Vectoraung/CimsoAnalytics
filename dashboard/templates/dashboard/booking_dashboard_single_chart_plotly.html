@@ -1,6 +1,10 @@
 {% extends 'main_layout_plotly.html' %}
 {% load static%}
 
+{% block title %}
+  Dashboard - Single Chart View
+{% endblock title %}
+
 {% block style%}
   <link rel="stylesheet" href="{% static 'css/dashboard_plotly.css' %}">
   <link rel="stylesheet" href="{% static 'css/dashboard_filter_form.css' %}">
